@@ -50,8 +50,9 @@ function smooth(arr){
 		var count = 0;
 		for(var i = 0; i<arr.length; i++){
 			for(var j = 0; j<arr[0].length; j++){
+				var prev = arr[i][j];
 				arr[i][j] = [j>0?arr[i][j-1]:undefined,j<arr.length-1?arr[i][j+1]:undefined,i>0?arr[i-1][j]:undefined,i<arr.length-1?arr[i+1][j]:undefined].reduce((acc,val)=>acc+(val===undefined?0:val),0)/4;
-				if(arr[i][j]>0){count = 1;}
+				if(arr[i][j]!=prev){count = 1;}
 			}
 		}
 		if(count===0){stop = true;}
