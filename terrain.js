@@ -44,6 +44,19 @@ function elev(arr){
 		}
 	}
 }
+function smooth(arr){
+	var stop = false;
+	while(!stop){
+		var count = 0;
+		for(var i = 0; i<arr.length; i++){
+			for(var j = 0; j<arr[0].length; j++){
+				arr[i][j] = [j>0?arr[i][j-1]:undefined,j<arr.length-1?arr[i][j+1]:undefined,i>0?arr[i-1][j]:undefined,i<arr.length-1?arr[i+1][j]:undefined].reduce((acc,val)=>acc+(val===undefined?0:val),0)/4;
+				if(arr[i][j]>0){count = 1;}
+			}
+		}
+		if(count===0){stop = true;}
+	}
+}
 function scale(arr,s){
 	var out = [];
 	for(var i = 0; i<arr.length*s; i++){
@@ -95,7 +108,7 @@ function gen(w,h = undefined){
 		}
 	}
 	out[Math.floor(h/2)][Math.floor(w/2)] = 1;
-	for(var iter = 0; iter<1; iter++){
+	for(var iter = 0; iter<2; iter++){
 		for(var i = 0; i<5; i++){
 			var x,y, stop = false;
 			do{
@@ -122,6 +135,7 @@ function gen(w,h = undefined){
 try{
 var a = gen(5);
 elev(a)
+smooth(a)
 a.forEach(val=>document.write("<br>"+val));
 }catch(e){alert(e)}
 </script>
