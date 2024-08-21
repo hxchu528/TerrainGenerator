@@ -38,6 +38,11 @@ function elev(arr){
 		}
 		stack.shift();
 	}
+	for(var i = 0; i<arr.length; i++){
+		for(var j = 0; j<arr[0].length; j++){
+			if(arr[i][j]>0){arr[i][j]-=1;}
+		}
+	}
 }
 function scale(arr,s){
 	var out = [];
@@ -116,6 +121,7 @@ function gen(w,h = undefined){
 }
 try{
 var a = gen(5);
+elev(a)
 a.forEach(val=>document.write("<br>"+val));
 }catch(e){alert(e)}
 </script>
