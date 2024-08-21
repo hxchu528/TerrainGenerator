@@ -90,28 +90,33 @@ function gen(w,h = undefined){
 		}
 	}
 	out[Math.floor(h/2)][Math.floor(w/2)] = 1;
-	for(var iter = 0; iter<3; iter++){
-		var count = out.flat().reduce((acc,val)=>val===1?1:0,0);
-		while(count<out.length*out[0].length*0.2){
-			var x,y;
+	for(var iter = 0; iter<1; iter++){
+		for(var i = 0; i<5; i++){
+			var x,y, stop = false;
 			do{
 				x = Math.floor(Math.random()*out[0].length);
 				y = Math.floor(Math.random()*out.length);
 			}while(out[y][x]===1);
-			while(out[y][x-1]!=1 && out[y][x+1]!=1 && out[y-1][x]!=1 && out[y+1][x]!=1){
+			while(!stop){
 				var r = Math.floor(Math.random()*4);
-				if(r===0){y-=1;}
-				if(r===1){y+=1;}
-				if(r===2){x-=1;}
-				if(r===3){x+=1;}
+				if(r===0 && y>0 && out[y-1][x]!==1){y-=1;}
+				else if(r===1 && y<out.length-1 && out[y+1][x]!==1){y+=1;}
+				else if(r===2 && x>0 && out[y][x-1]!==1){x-=1;}
+				else if(r===3 && x<out.length-1 && out[y][x+1]!==1){x+=1;}
+				if(y>0 && out[y-1][x]===1){stop = true}
+				else if(y<out.length-1 && out[y+1][x]===1){stop = true}
+				else if(x>0 && out[y][x-1]===1){stop = true}
+				else if(x<out.length-1 && out[y][x+1]===1){stop = true}
 			}
-			count = out.flat().reduce((acc,val)=>val===1?1:0,0);
+			out[y][x]=1;
 		}
 		out = scale(out,2);
 	}
 	return out;
 }
-var a = gen(5)
+try{
+var a = gen(5);
 a.forEach(val=>document.write("<br>"+val));
+}catch(e){alert(e)}
 </script>
 </html>
