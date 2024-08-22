@@ -110,7 +110,7 @@ function gen(w,h = undefined){
 	}
 	out[Math.floor(h/2)][Math.floor(w/2)] = 1;
 	for(var iter = 0; iter<2; iter++){
-		for(var i = 0; i<5; i++){
+		for(var i = 0; i<10; i++){
 			var x,y, stop = false;
 			do{
 				x = Math.floor(Math.random()*out[0].length);
@@ -151,8 +151,14 @@ smooth(a)
 var m = minmax(a);
 for(var i = 0; i<a.length; i++){
 	for(var j = 0; j<a[0].length; j++){
-		ctx.fillStyle = `rgb(${map(a[i][j],m[0],m[1],0,255)},0,0);`
-		ctx.fillRect(j,i,1,1);
+		a[i][j] = map(a[i][j],m[0],m[1],0,255)
+	}
+}
+
+for(var i = 0; i<a.length; i++){
+	for(var j = 0; j<a[0].length; j++){
+		ctx.fillStyle = `rgb(${a[i][j]},0,0)`
+		ctx.fillRect(j*400/a.length,i*400/a.length,400/a.length,400/a.length);
 	}
 }
 }catch(e){alert(e)}
