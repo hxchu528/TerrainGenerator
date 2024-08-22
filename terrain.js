@@ -51,7 +51,7 @@ function smooth(arr){
 		for(var i = 0; i<arr.length; i++){
 			for(var j = 0; j<arr[0].length; j++){
 				var prev = arr[i][j];
-				arr[i][j] = [j>0?arr[i][j-1]:undefined,j<arr.length-1?arr[i][j+1]:undefined,i>0?arr[i-1][j]:undefined,i<arr.length-1?arr[i+1][j]:undefined].reduce((acc,val)=>acc+(val===undefined?0:val),0)/4;
+				arr[i][j] = arr[i][j]===0?[j>0?arr[i][j-1]:undefined,j<arr.length-1?arr[i][j+1]:undefined,i>0?arr[i-1][j]:undefined,i<arr.length-1?arr[i+1][j]:undefined].reduce((acc,val)=>acc+(val===undefined?0:val),0)/4:arr[i][j];
 				if(arr[i][j]!=prev){count = 1;}
 			}
 		}
@@ -133,11 +133,28 @@ function gen(w,h = undefined){
 	}
 	return out;
 }
+function minmax(arr){
+	var m = [arr[0][0],arr[0][1]];
+	for(var i = 0; i<arr.length; i++){
+		for(var j = 0; j<arr[0].length; j++){
+			if(m[0]>arr[i][j]){m[0]=arr[i][j]}
+			if(m[1]<arr[i][j]){m[1]=arr[i][j]}
+		}
+	}
+	return m;
+}
+function map(n,or1,or2,r1,r2){return r1+(r2-r1)*((n-or1)/(or2-or1));}
 try{
 var a = gen(5);
 elev(a)
 smooth(a)
-a.forEach(val=>document.write("<br>"+val));
+var m = minmax(a);
+for(var i = 0; i<a.length; i++){
+	for(var j = 0; j<a[0].length; j++){
+		ctx.fillStyle = `rgb(${map(a[i][j],m[0],m[1],0,255)},0,0);`
+		ctx.fillRect(j,i,1,1);
+	}
+}
 }catch(e){alert(e)}
 </script>
 </html>
